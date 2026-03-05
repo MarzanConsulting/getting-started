@@ -8,7 +8,7 @@ jobs:
 
     env:
       LOCAL_IMAGE_TAG: local/getting-started:latest
-      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$(date +%Y%m%d)-$(date +%s)
+      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$(date +%Y%m%d)-$GITHUB_SHA
     steps:
     - name: Source Checkout
       uses: actions/checkout@v4
