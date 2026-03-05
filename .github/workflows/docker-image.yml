@@ -28,5 +28,6 @@ jobs:
     - name: Push to Registry
       run: docker push -- ${{ env.REMOTE_IMAGE_TAG }}
 
-
+    - name: Docker logout
+      run: docker logout
 
