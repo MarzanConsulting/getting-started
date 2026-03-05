@@ -8,17 +8,21 @@ jobs:
 
     env:
       LOCAL_IMAGE_TAG: local/getting-started:latest
-      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:latest
+      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$(date +%Y%m%d)-$(date +%s)
     steps:
     - name: Source Checkout
       uses: actions/checkout@v4
 
     - name: Docker login
-      run: | 
-        echo ${{ secrets.REGISTRY_PASSWORD }} | docker login \
-          --username=${{ secrets.REGISTRY_USERNAME }} \
-          --password-stdin ${{ secrets.MMC_REPO }}
-      
+      uses: docker/login-action@v4.0.0
+      with:
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        registry: ${{ secrets.MMC_REPO }}
+        # Username used to log against the Docker registry
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
     - name: Build Image
       run: docker build . --file Dockerfile --tag ${{ env.LOCAL_IMAGE_TAG }}
 
@@ -27,7 +31,3 @@ jobs:
           
     - name: Push to Registry
       run: docker push -- ${{ env.REMOTE_IMAGE_TAG }}
-
-    - name: Docker logout
-      run: docker logout
-
