@@ -1,6 +1,6 @@
 name: Docker Image CI
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 jobs:
   build-and-push:
     name: Build and Push Image
