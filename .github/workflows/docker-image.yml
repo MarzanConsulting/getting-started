@@ -7,8 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      LOCAL_IMAGE_TAG: local/getting-started:latest
-      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$(date +%Y%m%d)-$GITHUB_SHA
+      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$(date +%Y%m%d)-$GITHUB_RUN_NUMBER
     steps:
     - name: Source Checkout
       uses: actions/checkout@v4
@@ -22,12 +21,15 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    
-    - name: Build Image
-      run: docker build . --file Dockerfile --tag ${{ env.LOCAL_IMAGE_TAG }}
+        
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
 
-    - name: Tag Image
-      run: docker tag ${{ env.LOCAL_IMAGE_TAG }} ${{ env.REMOTE_IMAGE_TAG }}
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
           
-    - name: Push to Registry
-      run: docker push -- ${{ env.REMOTE_IMAGE_TAG }}
+    - name: Build and Push
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: ${{env.REMOTE_IMAGE_TAG }}
