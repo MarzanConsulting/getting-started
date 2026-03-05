@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/MarzanConsulting/getting-started/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/MarzanConsulting/getting-started/actions/workflows/build-and-push.yml)
+
 # Docker Getting Started Tutorial
 
 This tutorial was written with the intent of helping folks get up and running
