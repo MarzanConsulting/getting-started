@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:$GITHUB_WORKFLOW_SHA
+      REMOTE_IMAGE_TAG: ${{ secrets.MMC_REPO }}/hmarzan/getting-started:latest
     steps:
     - name: Source Checkout
       uses: actions/checkout@v4
